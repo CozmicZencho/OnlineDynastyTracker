@@ -1,16 +1,14 @@
-<div class="dynasty-row flex items-center justify-between p-3 rounded-lg border border-neutral-800 bg-neutral-900/40" id="dy-{{ d.id }}">
-  <div>
+<div class="flex items-center justify-between p-3 rounded-lg border border-neutral-800 bg-neutral-900/40" id="dy-{{ d.id }}">
+  <div class="space-y-0.5">
     <div class="font-medium">{{ d.name }}</div>
-    <div class="text-xs text-neutral-400">Commissioner: {{ d.commissioner }} · Created {{ d.created_at }}</div>
+    <div class="text-xs text-neutral-400">
+      Members: {{ d.members|length }} · Created {{ d.created_at }}
+    </div>
   </div>
-
-  <button
-    class="text-sm px-2 py-1 rounded bg-red-600 hover:bg-red-700"
-    hx-delete="/dynasties/{{ d.id }}"
-    hx-target="#dy-{{ d.id }}"
-    hx-swap="outerHTML"
-    hx-confirm="Delete this dynasty?"
-  >
-    Delete
-  </button>
+  <div class="flex items-center gap-2">
+    <a class="px-2 py-1 rounded border border-neutral-700 hover:bg-neutral-800" href="/dynasties/{{ d.id }}/roster">Roster</a>
+    <button class="px-2 py-1 rounded bg-red-600 hover:bg-red-700"
+            hx-delete="/dynasties/{{ d.id }}" hx-target="#dy-{{ d.id }}" hx-swap="outerHTML"
+            hx-confirm="Delete this dynasty?">Delete</button>
+  </div>
 </div>

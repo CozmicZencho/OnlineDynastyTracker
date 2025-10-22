@@ -1,0 +1,28 @@
+<div class="flex flex-wrap items-center justify-between gap-3 p-3 rounded-lg border border-neutral-800 bg-neutral-900/40" id="mem-{{ m.id }}">
+  <div class="space-y-0.5">
+    <div class="font-medium">{{ m.player.display_name }}</div>
+    <div class="text-xs text-neutral-400">Joined {{ m.joined_at }}</div>
+  </div>
+
+  <form class="flex flex-wrap items-center gap-2"
+        hx-post="/dynasties/{{ m.dynasty_id }}/members/{{ m.id }}/update"
+        hx-target="#mem-{{ m.id }}" hx-swap="outerHTML">
+    <input name="team" value="{{ m.team }}" class="w-28 px-2 py-1 rounded bg-neutral-800 border border-neutral-700">
+    <select name="designation" class="px-2 py-1 rounded bg-neutral-800 border border-neutral-700">
+      <option {{ "selected" if m.designation.value=="HC" else "" }}>HC</option>
+      <option {{ "selected" if m.designation.value=="OC" else "" }}>OC</option>
+      <option {{ "selected" if m.designation.value=="DC" else "" }}>DC</option>
+    </select>
+    <select name="role" class="px-2 py-1 rounded bg-neutral-800 border border-neutral-700">
+      <option value="NORMAL" {{ "selected" if m.role.value=="NORMAL" else "" }}>Normal</option>
+      <option value="COMMISSIONER" {{ "selected" if m.role.value=="COMMISSIONER" else "" }}>Commissioner</option>
+      <option value="OWNER" {{ "selected" if m.role.value=="OWNER" else "" }}>Owner</option>
+    </select>
+    <button class="px-3 py-1 rounded bg-neutral-700 hover:bg-neutral-600">Save</button>
+  </form>
+
+  <button class="px-3 py-1 rounded bg-red-600 hover:bg-red-700"
+          hx-delete="/dynasties/{{ m.dynasty_id }}/members/{{ m.id }}"
+          hx-target="#mem-{{ m.id }}" hx-swap="outerHTML"
+          hx-confirm="Remove this player from the dynasty?">Delete</button>
+</div>

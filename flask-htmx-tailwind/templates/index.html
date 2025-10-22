@@ -1,44 +1,10 @@
 {% extends 'base.html' %}
-{% block title %}Dynasties · Flask + HTMX + Tailwind{% endblock %}
 {% block content %}
 <section class="space-y-6">
   <h2 class="text-xl font-semibold">Create a Dynasty</h2>
 
-  <form
-    id="create-form"
-    class="max-w-lg space-y-3 p-4 rounded-lg border border-neutral-800 bg-neutral-900/40"
-    hx-post="/dynasties"
-    hx-target="#dynasty-list"
-    hx-swap="afterbegin"
-    hx-indicator="#create-spinner"
-    hx-on::after-request="this.reset()"
-  >
-    <div class="grid gap-3">
-      <label class="text-sm">Dynasty name</label>
-      <input name="name" class="px-3 py-2 rounded bg-neutral-800 border border-neutral-700 outline-none focus:border-emerald-500" placeholder="e.g., SEC Chaos Online" required />
-    </div>
-
-    <div class="grid gap-3">
-      <label class="text-sm">Commissioner</label>
-      <input name="commissioner" class="px-3 py-2 rounded bg-neutral-800 border border-neutral-700 outline-none focus:border-emerald-500" placeholder="Your name / handle" required />
-    </div>
-
-    <div class="flex items-center gap-3">
-      <button
-        type="submit"
-        class="px-4 py-2 rounded-md bg-emerald-600 hover:bg-emerald-700 font-medium"
-      >
-        Create
-      </button>
-
-      <!-- HTMX spinner indicator -->
-      <span id="create-spinner" class="htmx-indicator text-sm text-neutral-400">Saving…</span>
-    </div>
-
-    <!-- Any error HTML from the 400 response will be swapped into the form's target,
-         but if you prefer showing errors below the button, change hx-target to this div's id -->
-    <div id="create-errors"></div>
-  </form>
+  <!-- Either inline the form... -->
+  {% include 'partials/_dynasty_form.html' %}
 
   <hr class="border-neutral-800">
 
@@ -52,7 +18,7 @@
     >Refresh</button>
   </div>
 
-  <!-- Loads the list when the page renders -->
+  <!-- Load the list on page load -->
   <div id="dynasty-list" hx-get="/dynasties" hx-trigger="load"></div>
 </section>
 {% endblock %}

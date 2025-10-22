@@ -1,0 +1,29 @@
+<div class="flex flex-wrap items-center justify-between gap-2 p-3 rounded-lg border border-neutral-800 bg-neutral-900/40" id="tp-{{ p.id }}">
+  <form class="flex flex-wrap items-center gap-2"
+        hx-post="/dynasties/{{ p.dynasty_member.dynasty_id }}/members/{{ p.member_id }}/team/{{ p.id }}/update"
+        hx-target="#tp-{{ p.id }}" hx-swap="outerHTML">
+    <input name="name" value="{{ p.name }}" class="w-44 px-2 py-1 rounded bg-neutral-800 border border-neutral-700">
+    <select name="position" class="px-2 py-1 rounded bg-neutral-800 border border-neutral-700">
+      {% for pos in ["QB","RB","WR","TE","OL","DL","LB","CB","S","K","P"] %}
+        <option value="{{ pos }}" {{ "selected" if p.position==pos else "" }}>{{ pos }}</option>
+      {% endfor %}
+    </select>
+    <input name="overall" value="{{ p.overall or '' }}" class="w-20 px-2 py-1 rounded bg-neutral-800 border border-neutral-700" placeholder="OVR">
+    <input name="year" value="{{ p.year or '' }}" class="w-24 px-2 py-1 rounded bg-neutral-800 border border-neutral-700" placeholder="Year">
+    <button class="px-3 py-1 rounded bg-neutral-700 hover:bg-neutral-600">Save</button>
+  </form>
+
+  <div class="flex gap-2">
+    <a class="px-3 py-1 rounded border border-neutral-700 hover:bg-neutral-800"
+       href="/dynasties/{{ m.dynasty_id }}/members/{{ m.id }}/team">
+      View Team
+    </a>
+
+    <button class="px-3 py-1 rounded bg-red-600 hover:bg-red-700"
+            hx-delete="/dynasties/{{ m.dynasty_id }}/members/{{ m.id }}"
+            hx-target="#mem-{{ m.id }}" hx-swap="outerHTML"
+            hx-confirm="Remove this player from the dynasty?">
+      Delete
+    </button>
+  </div>
+</div>

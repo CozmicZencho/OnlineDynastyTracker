@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block title %}{{ member.player.display_name }} · {{ member.team }} Roster{% endblock %}
+{% block content %}
+<section class="space-y-6">
+  <div class="flex items-center justify-between">
+    <h2 class="text-xl font-semibold">
+      {{ member.player.display_name }} — {{ member.team }} ({{ member.designation.value }})
+    </h2>
+    <a class="text-sm px-2 py-1 rounded border border-neutral-700 hover:bg-neutral-800" href="/dynasties/{{ member.dynasty_id }}/roster">
+      ← Back to Dynasty Roster
+    </a>
+  </div>
+
+  <!-- Add Player Form -->
+  <form class="grid md:grid-cols-5 gap-3 p-4 rounded-lg border border-neutral-800 bg-neutral-900/40"
+        hx-post="/dynasties/{{ member.dynasty_id }}/members/{{ member.id }}/team"
+        hx-target="#team-list" hx-swap="afterbegin" hx-on::after-request="this.reset()">
+    <input class="md:col-span-2 px-3 py-2 rounded bg-neutral-800 border border-neutral-700" name="name" placeholder="Player name" required>
+    <select class="px-3 py-2 rounded bg-neutral-800 border border-neutral-700" name="position" required>
+      <option value="" disabled selected>Position</option>
+      <option>QB</option><option>RB</option><option>WR</option><option>TE</option>
+      <option>OL</option><option>DL</option><option>LB</option><option>CB</option><option>S</option>
+      <option>K</option><option>P</option>
+    </select>
+    <input class="px-3 py-2 rounded bg-neutral-800 border border-neutral-700" name="overall" placeholder="OVR (e.g., 84)" inputmode="numeric">
+    <input class="px-3 py-2 rounded bg-neutral-800 border border-neutral-700" name="year" placeholder="Year (FR/SO/JR/SR)">
+    <button class="md:col-span-5 px-4 py-2 rounded bg-emerald-600 hover:bg-emerald-700">Add Player</button>
+  </form>
+
+  <!-- Team list -->
+  <div id="team-list" class="grid gap-3">
+    {% for p in players %}
+      {% include 'partials/_team_player_row.html' %}
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

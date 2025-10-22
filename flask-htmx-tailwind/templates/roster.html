@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}Roster · {{ d.name }}{% endblock %}
+{% block content %}
+<section class="space-y-6">
+  <h2 class="text-xl font-semibold">{{ d.name }} · Roster</h2>
+
+  <form class="max-w-3xl grid md:grid-cols-5 gap-3 p-4 rounded-lg border border-neutral-800 bg-neutral-900/40"
+        hx-post="/dynasties/{{ d.id }}/members" hx-target="#member-list" hx-swap="afterbegin" hx-on::after-request="this.reset()">
+    <input class="md:col-span-2 px-3 py-2 rounded bg-neutral-800 border border-neutral-700" name="player_name" placeholder="Player name" required>
+    <input class="px-3 py-2 rounded bg-neutral-800 border border-neutral-700" name="team" placeholder="Team (e.g., TAMU)" required>
+    <select class="px-3 py-2 rounded bg-neutral-800 border border-neutral-700" name="designation">
+      <option>HC</option><option>OC</option><option>DC</option>
+    </select>
+    <select class="px-3 py-2 rounded bg-neutral-800 border border-neutral-700" name="role">
+      <option value="NORMAL">Normal</option>
+      <option value="COMMISSIONER">Commissioner</option>
+      <option value="OWNER">Owner</option>
+    </select>
+    <button class="md:col-span-5 px-4 py-2 rounded bg-emerald-600 hover:bg-emerald-700">Add</button>
+  </form>
+
+  <div id="member-list" class="grid gap-3">
+    {% for m in members %}
+      {% include 'partials/_member_row.html' %}
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}
