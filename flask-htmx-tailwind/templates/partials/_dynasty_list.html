@@ -1,0 +1,9 @@
+{% if dynasties %}
+  <div class="grid gap-3">
+    {% for d in dynasties %}
+      {% include 'partials/_dynasty_row.html' %}
+    {% endfor %}
+  </div>
+{% else %}
+  <p class="text-sm text-neutral-400">No dynasties yet — create one above.</p>
+{% endif %}

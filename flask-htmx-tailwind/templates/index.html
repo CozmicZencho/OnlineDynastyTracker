@@ -1,29 +1,58 @@
 {% extends 'base.html' %}
-{% block title %}Home · Flask + HTMX + Tailwind{% endblock %}
+{% block title %}Dynasties · Flask + HTMX + Tailwind{% endblock %}
 {% block content %}
-  <section class="space-y-4">
-    <h2 class="text-lg font-medium">HTMX Demo: Dynamic Fragment</h2>
+<section class="space-y-6">
+  <h2 class="text-xl font-semibold">Create a Dynasty</h2>
 
-    <div class="flex items-center gap-2">
-      <button
-        class="px-3 py-1.5 rounded-md bg-emerald-600 hover:bg-emerald-700"
-        hx-get="/counter?n=1"
-        hx-target="#counter"
-        hx-swap="innerHTML"
-      >+1</button>
-
-      <button
-        class="px-3 py-1.5 rounded-md bg-fuchsia-600 hover:bg-fuchsia-700"
-        hx-get="/counter?n=2"
-        hx-target="#counter"
-        hx-swap="innerHTML"
-      >+2</button>
-
-      <div id="counter" class="ml-4"></div>
+  <form
+    id="create-form"
+    class="max-w-lg space-y-3 p-4 rounded-lg border border-neutral-800 bg-neutral-900/40"
+    hx-post="/dynasties"
+    hx-target="#dynasty-list"
+    hx-swap="afterbegin"
+    hx-indicator="#create-spinner"
+    hx-on::after-request="this.reset()"
+  >
+    <div class="grid gap-3">
+      <label class="text-sm">Dynasty name</label>
+      <input name="name" class="px-3 py-2 rounded bg-neutral-800 border border-neutral-700 outline-none focus:border-emerald-500" placeholder="e.g., SEC Chaos Online" required />
     </div>
 
-    <p class="text-sm text-neutral-400">
-      These buttons use HTMX to fetch small HTML snippets from Flask — no page reload!
-    </p>
-  </section>
+    <div class="grid gap-3">
+      <label class="text-sm">Commissioner</label>
+      <input name="commissioner" class="px-3 py-2 rounded bg-neutral-800 border border-neutral-700 outline-none focus:border-emerald-500" placeholder="Your name / handle" required />
+    </div>
+
+    <div class="flex items-center gap-3">
+      <button
+        type="submit"
+        class="px-4 py-2 rounded-md bg-emerald-600 hover:bg-emerald-700 font-medium"
+      >
+        Create
+      </button>
+
+      <!-- HTMX spinner indicator -->
+      <span id="create-spinner" class="htmx-indicator text-sm text-neutral-400">Saving…</span>
+    </div>
+
+    <!-- Any error HTML from the 400 response will be swapped into the form's target,
+         but if you prefer showing errors below the button, change hx-target to this div's id -->
+    <div id="create-errors"></div>
+  </form>
+
+  <hr class="border-neutral-800">
+
+  <div class="flex items-center justify-between">
+    <h3 class="text-lg font-medium">Dynasties</h3>
+    <button
+      class="text-sm px-2 py-1 rounded border border-neutral-700 hover:bg-neutral-800"
+      hx-get="/dynasties"
+      hx-target="#dynasty-list"
+      hx-swap="innerHTML"
+    >Refresh</button>
+  </div>
+
+  <!-- Loads the list when the page renders -->
+  <div id="dynasty-list" hx-get="/dynasties" hx-trigger="load"></div>
+</section>
 {% endblock %}
