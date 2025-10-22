@@ -1,0 +1,13 @@
+{
+  "name": "flask-htmx-tailwind",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "tailwind:dev": "tailwindcss -i ./static/src/styles.css -o ./static/dist/styles.css --watch",
+    "tailwind:build": "tailwindcss -i ./static/src/styles.css -o ./static/dist/styles.css --minify"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.1.0",
+    "tailwindcss": "^4.1.15"
+  }
+}

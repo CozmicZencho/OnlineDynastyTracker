@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{% block title %}Flask + HTMX + Tailwind{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='dist/styles.css') }}">
+  <script src="https://unpkg.com/htmx.org@1.9.12" defer></script>
+</head>
+<body class="min-h-screen bg-neutral-950 text-neutral-100">
+  <header class="p-4 border-b border-neutral-800">
+    <div class="max-w-5xl mx-auto flex items-center justify-between">
+      <h1 class="text-xl font-semibold">Flask · HTMX · Tailwind</h1>
+      <nav class="text-sm text-neutral-400">
+        <a href="/" class="hover:text-white" hx-boost="true">Home</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="app" class="max-w-5xl mx-auto p-4">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="max-w-5xl mx-auto p-4 text-xs text-neutral-500">
+    Built with Flask, HTMX, and Tailwind.
+  </footer>
+</body>
+</html>

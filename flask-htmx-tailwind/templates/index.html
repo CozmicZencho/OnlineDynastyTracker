@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}Home · Flask + HTMX + Tailwind{% endblock %}
+{% block content %}
+  <section class="space-y-4">
+    <h2 class="text-lg font-medium">HTMX Demo: Dynamic Fragment</h2>
+
+    <div class="flex items-center gap-2">
+      <button
+        class="px-3 py-1.5 rounded-md bg-emerald-600 hover:bg-emerald-700"
+        hx-get="/counter?n=1"
+        hx-target="#counter"
+        hx-swap="innerHTML"
+      >+1</button>
+
+      <button
+        class="px-3 py-1.5 rounded-md bg-fuchsia-600 hover:bg-fuchsia-700"
+        hx-get="/counter?n=2"
+        hx-target="#counter"
+        hx-swap="innerHTML"
+      >+2</button>
+
+      <div id="counter" class="ml-4"></div>
+    </div>
+
+    <p class="text-sm text-neutral-400">
+      These buttons use HTMX to fetch small HTML snippets from Flask — no page reload!
+    </p>
+  </section>
+{% endblock %}
