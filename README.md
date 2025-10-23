@@ -27,4 +27,3 @@ Multiplayer online dynasty tracker for recording data.
 * `npm install -D tailwindcss@4 @tailwindcss/cli`
 
 
-# 
