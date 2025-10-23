@@ -1,11 +1,9 @@
-# app.py (top order matters)
 from flask import Flask, render_template, request, abort, redirect, url_for, jsonify
 from pathlib import Path
 from db import db
 
 app = Flask(__name__, instance_relative_config=True)
 
-# ensure instance folder
 Path(app.instance_path).mkdir(parents=True, exist_ok=True)
 db_path = Path(app.instance_path) / "app.db"
 app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{db_path.as_posix()}"
@@ -13,13 +11,11 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db.init_app(app)
 
-from models import Dynasty, Player, DynastyMember, Role, Designation, TeamPlayer  # adjust if you don't have TeamPlayer yet
+from models import Dynasty, Player, DynastyMember, Role, Designation, TeamPlayer  
 
-# ✅ create tables once at import time (works with `flask run`)
 with app.app_context():
     db.create_all()
 
-# 4) Define routes (NOW it’s safe to use @app.get/@app.post)
 @app.get("/")
 def home():
     return render_template("index.html")
@@ -29,7 +25,6 @@ def dynasties_list():
     items = Dynasty.query.order_by(Dynasty.created_at.desc()).all()
     return render_template("partials/_dynasty_list.html", dynasties=items)
 
-
 # ---- Dynasty CRUD ----
 @app.get("/dynasties/new")
 def dynasties_new():
@@ -38,7 +33,6 @@ def dynasties_new():
 @app.post("/dynasties")
 def dynasties_create():
     name = (request.form.get("name") or "").strip()
-    # accept either owner_name or commissioner for compatibility
     owner_name = (request.form.get("owner_name") or request.form.get("commissioner") or "").strip()
     owner_team = (request.form.get("owner_team") or request.form.get("team") or "").strip()
     owner_designation = (request.form.get("owner_designation") or "HC").strip()
